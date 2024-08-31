@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Binary Tree</title>
+    <link rel="stylesheet" href="page1.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Binary Tree</h1>
+        </header>
+        <div>
+  
+    <h1>Binary Tree Notes</h1>
+
+    <h2>Binary Tree Basics</h2>
+    <ul>
+        <li><strong>Definition:</strong> A binary tree is a hierarchical data structure where each node has at most two children.</li>
+        <li><strong>Nodes:</strong> Each node contains data and references to its left and right children.</li>
+        <li><strong>Root:</strong> The topmost node of a binary tree.</li>
+        <li><strong>Parent, Child, and Siblings:</strong> Relationships between nodes.</li>
+        <li><strong>Levels:</strong> Distance from the root.</li>
+        <li><strong>Depth:</strong> Number of edges to the root.</li>
+        <li><strong>Height:</strong> Maximum number of edges to any leaf node.</li>
+    </ul>
+
+    <h2>Types of Binary Trees</h2>
+    <ul>
+        <li><strong>Full Binary Tree:</strong> Every non-leaf node has two children.</li>
+        <li><strong>Complete Binary Tree:</strong> Every level is filled, and nodes are as left as possible.</li>
+        <li><strong>Perfect Binary Tree:</strong> Both full and complete.</li>
+    </ul>
+    <h2>Binary search tree</h2>
+    <p>
+        <strong>
+            Definition:
+        </strong>
+        A Binary Search Tree (BST) is a binary tree in which each node has at most two children, and the nodes are organized in a specific order:
+    </p>
+    <ul>
+        <li>
+            The left subtree of a node contains only nodes with keys less than the node’s key.
+        </li>
+        <li>
+            The right subtree of a node contains only nodes with keys greater than the node’s key.
+        </li>
+        <li>
+            Both the left and right subtrees must also be binary search trees.
+        </li>
+    </ul>
+    <p>
+        <strong>
+            Properties
+        </strong>
+    </p>
+    <ol>
+        <li>
+           <strong> Ordering Property:</strong> For any node N, all keys in the left subtree of N are smaller than the key of N, and all keys in the right subtree of N are greater than the key of N.
+
+        </li>
+        <li>
+            <strong>No Duplicates:</strong> In a typical BST, each element is unique.
+        </li>
+        <li>
+            <strong>In-Order Traversal:</strong> In-order traversal of a BST yields the keys in ascending order.
+        </li>
+    </ol>
+    <h2>Traversal Techniques</h2>
+    <h3>Pre-order Traversal</h3>
+    <pre><code>
+       void preorderTraversal(node) {
+        if (node !== null) {
+          console.log(node.data); // Process node
+          preorderTraversal(node.left); // Traverse left subtree
+          preorderTraversal(node.right); // Traverse right subtree
+        }
+    }
+    </code></pre>
+
+    <h3>In-order Traversal</h3>
+    <pre><code>
+        void inorderTraversal(Node node) {
+           if (node !== null) {
+           inorderTraversal(node.left); // Traverse left subtree
+           console.log(node.data); // Process node
+           inorderTraversal(node.right); // Traverse right subtree
+        }
+    }
+    </code></pre>
+
+    <h3>Post-order Traversal</h3>
+    <pre><code>
+        void postorderTraversal(node) {
+        if (node !== null) {
+           postorderTraversal(node.left); // Traverse left subtree
+           postorderTraversal(node.right); // Traverse right subtree
+           console.log(node.data); // Process node
+        }
+    }
+    </code></pre>
+     <h3>Level-order Traversal</h3>
+    <pre><code>
+        public static void printLevelOrder(Node root) {
+            if (root == null) {
+                return;
+            }
+    
+            Queue<Node> queue = new LinkedList<>();
+            queue.add(root);
+    
+            while (!queue.isEmpty()) {
+                Node tempNode = queue.poll();
+                System.out.print(tempNode.data + " ");
+    
+                if (tempNode.left != null) {
+                    queue.add(tempNode.left);
+                }
+    
+                if (tempNode.right != null) {
+                    queue.add(tempNode.right);
+                }
+            }
+        }
+    </code></pre>
+
+    <h2>Operations</h2>
+    <ul>
+        <li><strong>Insertion:</strong> Adding a new node.
+        <pre><code>
+            public class BinaryTreeOperations {
+
+                // Function to insert a new node with the given key in the binary tree
+                public static Node insert(Node root, int key) {
+                    if (root == null) {
+                        return new Node(key);
+                    }
+            
+                    Queue<Node> queue = new LinkedList<>();
+                    queue.add(root);
+            
+                    while (!queue.isEmpty()) {
+                        Node temp = queue.poll();
+            
+                        if (temp.left == null) {
+                            temp.left = new Node(key);
+                            break;
+                        } else {
+                            queue.add(temp.left);
+                        }
+            
+                        if (temp.right == null) {
+                            temp.right = new Node(key);
+                            break;
+                        } else {
+                            queue.add(temp.right);
+                        }
+                    }
+            
+                    return root;
+                }
+            }
+            
+        </code></pre>
+        </li>
+        <li><strong>Deletion:</strong> Removing a node.
+        <pre><code>
+            public class BinaryTreeOperations {
+
+                // Function to delete the deepest rightmost node in the binary tree
+                private static void deleteDeepest(Node root, Node delNode) {
+                    Queue<Node> queue = new LinkedList<>();
+                    queue.add(root);
+            
+                    Node temp;
+                    while (!queue.isEmpty()) {
+                        temp = queue.poll();
+            
+                        if (temp == delNode) {
+                            temp = null;
+                            return;
+                        }
+            
+                        if (temp.right != null) {
+                            if (temp.right == delNode) {
+                                temp.right = null;
+                                return;
+                            } else {
+                                queue.add(temp.right);
+                            }
+                        }
+            
+                        if (temp.left != null) {
+                            if (temp.left == delNode) {
+                                temp.left = null;
+                                return;
+                            } else {
+                                queue.add(temp.left);
+                            }
+                        }
+                    }
+                }
+            
+                // Function to delete a node with the given key in the binary tree
+                public static Node delete(Node root, int key) {
+                    if (root == null) {
+                        return null;
+                    }
+            
+                    if (root.left == null && root.right == null) {
+                        if (root.data == key) {
+                            return null;
+                        } else {
+                            return root;
+                        }
+                    }
+            
+                    Queue<Node> queue = new LinkedList<>();
+                    queue.add(root);
+            
+                    Node temp = null, keyNode = null;
+                    while (!queue.isEmpty()) {
+                        temp = queue.poll();
+            
+                        if (temp.data == key) {
+                            keyNode = temp;
+                        }
+            
+                        if (temp.left != null) {
+                            queue.add(temp.left);
+                        }
+            
+                        if (temp.right != null) {
+                            queue.add(temp.right);
+                        }
+                    }
+            
+                    if (keyNode != null) {
+                        int x = temp.data;
+                        deleteDeepest(root, temp);
+                        keyNode.data = x;
+                    }
+            
+                    return root;
+                }
+            }
+            
+        </code></pre>
+        </li>
+        <li><strong>Searching:</strong> Locating a specific node.
+        <pre><code>
+            public class BinaryTreeOperations {
+
+                // Function to search a key in the binary tree
+                public static boolean search(Node root, int key) {
+                    if (root == null) {
+                        return false;
+                    }
+            
+                    Queue<Node> queue = new LinkedList<>();
+                    queue.add(root);
+            
+                    while (!queue.isEmpty()) {
+                        Node temp = queue.poll();
+            
+                        if (temp.data == key) {
+                            return true;
+                        }
+            
+                        if (temp.left != null) {
+                            queue.add(temp.left);
+                        }
+            
+                        if (temp.right != null) {
+                            queue.add(temp.right);
+                        }
+                    }
+            
+                    return false;
+                }
+            }
+            
+            
+        </code></pre>
+        </li>
+    </ul>
+    <h2>Some questions for practice on binary tree</h2>
+    <ul>
+        <li><strong>
+            <a href="https://leetcode.com/problems/unique-binary-search-trees/description/" target="_blank">Unique Binary Search Tree</a>
+            </strong>
+        </li>
+        <li><strong>
+            <a href="https://leetcode.com/problems/unique-binary-search-trees-ii" target="_blank">Unique Binary Search Tree II</a>
+            </strong>
+        </li>
+        <li><strong>
+            <a href="https://leetcode.com/problems/validate-binary-search-tree" target="_blank">Validate Binary Search Tree</a>
+            </strong>
+        </li>
+        <li><strong>
+            <a href="https://leetcode.com/problems/recover-binary-search-tree" target="_blank">Recover Binary Search Tree</a>
+            </strong>
+        </li>
+        <li><strong>
+            <a href="https://leetcode.com/problems/same-tree" target="_blank">Same Tree</a>
+            </strong>
+        </li>
+        <li><strong>
+            <a href="https://leetcode.com/problems/symmetric-tree" target="_blank">Symmetric Tree</a>
+            </strong>
+        </li>
+        <li><strong>
+            <a href="https://leetcode.com/problems/binary-tree-zigzag-level-order-traversal" target="_blank">Binary Tree zigzag level order traversal</a>
+            </strong>
+        </li>
+        <li><strong>
+            <a href="https://leetcode.com/problems/maximum-depth-of-binary-tree" target="_blank">Maximum Depth of binary Tree</a>
+            </strong>
+        </li>
+        <li><strong>
+            <a href="https://leetcode.com/problems/convert-sorted-array-to-binary-search-tree" target="_blank">Convert Sorted Array to binary search tree</a>
+            </strong>
+        </li>
+        <li><strong>
+            <a href="https://leetcode.com/problems/balanced-binary-tree" target="_blank">Balanced Binary Tree</a>
+            </strong>
+        </li>
+        
+    </ul>
+        </div>
+    </div>
+</body>
+</html>

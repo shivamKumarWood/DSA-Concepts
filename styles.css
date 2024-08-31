@@ -1,0 +1,81 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    background: linear-gradient(to bottom right, #68dbea, #15065f); /* Gradient from blue to dark blue */
+    color: #ecf0f1; /* Light Gray */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* Distributes content evenly vertically */
+    min-height: 100vh; /* Ensures the body takes up at least the full viewport height */
+}
+
+header {
+    background: linear-gradient(to bottom right, #addeef, #033d41);
+    color:white; /* Light Gray */
+    border-radius: 8px;
+    padding: 20px;
+    text-align: center;
+    width: 100%; /* Full width header */
+    /* box-sizing: border-box; */
+    position: relative;
+    z-index: 2; /* Ensures header is above other content */
+}
+
+header h1 {
+    margin: 0;
+    font-size: 3em;
+    font-weight: bold;
+    color: #bdc3c7; /* Silver */
+}
+
+.main-content {
+    flex: 1; /* Takes up remaining vertical space */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    z-index: 1; /* Ensures content is below header */
+}
+
+.card-container {
+    display: flex;
+    flex-wrap: wrap;
+    
+    justify-content: space-around; /* Adjust the alignment of cards */
+    max-width: 1400px; /* Maximum width of card container */
+    margin: 20px auto; /* Center align and provide margin */
+    padding: 20px; /* Add padding for better spacing */
+    height:400px;
+    border-radius: 12px; /* Rounded corners for container */
+  
+}
+
+.card {
+    background: linear-gradient(to bottom right, #0b4c86, #0a5e77);
+    border: 1px solid #2c3e50; /* Dark Blue */
+    border-radius: 8px;
+    margin: 10px;
+    padding: 20px;
+    text-align: center;
+    text-decoration: none;
+    font-size: 1.5em;
+    font-weight: bold;
+    color: #ecf0f1; /* Light Gray */
+    flex: 1 1 calc(33.333% - 20px); /* Responsive: 3 cards per row with margin */
+    max-width: calc(33.333% - 20px); /* Three cards per row with margin */
+    box-sizing: border-box;
+    transition: transform 0.2s;
+}
+.card:hover {
+    transform: scale(1.05); /* Scale up the card on hover */
+}
+footer {
+    background-color: #34495e; /* Darker Blue */
+    color: #ecf0f1; /* Light Gray */
+    text-align: center;
+    padding: 5px;
+    width: 100%;
+    z-index: 2;
+}

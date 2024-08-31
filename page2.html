@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Linked List Notes</title>
+    <link rel="stylesheet" href="page2.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Linked List</h1>
+       </header>
+        <section>
+            <h2>Definition</h2>
+            <p>A linked list is a linear data structure where each element (called a node) contains a data part and a reference (or link) to the next node in the sequence. Unlike arrays, linked lists do not store elements in contiguous memory locations.</p>
+        </section>
+        <section>
+            <h2>Types of Linked Lists</h2>
+            <ul>
+                <li><strong>Singly Linked List</strong></li>
+                <ul>
+                    <li><strong>Structure</strong>: Each node has two parts: data and a reference to the next node.</li>
+                    <li><strong>Operations</strong>:
+                        <ul>
+                            <li>Traversal</li>
+                            <li>Insertion</li>
+                            <li>Deletion</li>
+                        </ul>
+                    </li>
+                </ul>
+                <li><strong>Doubly Linked List</strong></li>
+                <ul>
+                    <li><strong>Structure</strong>: Each node has three parts: data, a reference to the next node, and a reference to the previous node.</li>
+                    <li><strong>Operations</strong>:
+                        <ul>
+                            <li>Traversal (both directions)</li>
+                            <li>Insertion</li>
+                            <li>Deletion</li>
+                        </ul>
+                    </li>
+                </ul>
+                <li><strong>Circular Linked List</strong></li>
+                <ul>
+                    <li><strong>Structure</strong>: The last node points back to the first node.</li>
+                    <li><strong>Operations</strong>:
+                        <ul>
+                            <li>Traversal (can start at any node)</li>
+                            <li>Insertion</li>
+                            <li>Deletion</li>
+                        </ul>
+                    </li>
+                </ul>
+                <li><strong>Circular Doubly Linked List</strong></li>
+                <ul>
+                    <li><strong>Structure</strong>: Combines features of doubly linked and circular linked lists.</li>
+                    <li><strong>Operations</strong>:
+                        <ul>
+                            <li>Traversal (both directions, can start at any node)</li>
+                            <li>Insertion</li>
+                            <li>Deletion</li>
+                        </ul>
+                    </li>
+                </ul>
+            </ul>
+        </section>
+        <section>
+            <h2>Basic Operations</h2>
+            <ul>
+                <li><strong>Traversal</strong>: Access each element in the list starting from the head node and following the links to the subsequent nodes.</li>
+                <li><strong>Insertion</strong>:
+                    <ul>
+                        <li><strong>At the beginning</strong>: Insert a new node before the head and update the head reference.</li>
+                        <li><strong>At the end</strong>: Traverse to the end and add a new node.</li>
+                        <li><strong>At a specific position</strong>: Traverse to the given position and insert the node.</li>
+                    </ul>
+                </li>
+                <li><strong>Deletion</strong>:
+                    <ul>
+                        <li><strong>From the beginning</strong>: Update the head reference to the next node.</li>
+                        <li><strong>From the end</strong>: Traverse to the second last node and update its next reference to null.</li>
+                        <li><strong>At a specific position</strong>: Traverse to the node before the one to be deleted and update its next reference.</li>
+                    </ul>
+                </li>
+                <li><strong>Searching</strong>: Traverse the list to find the node with the specified value.</li>
+                <li><strong>Updating</strong>: Traverse the list to find the node and update its data value.</li>
+            </ul>
+        </section>
+        <section>
+            <h2>Advantages</h2>
+            <ul>
+                <li><strong>Dynamic Size</strong>: Linked lists can grow and shrink in size by allocating and deallocating memory as needed.</li>
+                <li><strong>Ease of Insertion/Deletion</strong>: Insertions and deletions are more efficient compared to arrays, especially when the operations are performed at the beginning or end of the list.</li>
+                <li><strong>Memory Efficiency</strong>: There is no need to allocate memory for a predefined size.</li>
+            </ul>
+        </section>
+        <section>
+            <h2>Disadvantages</h2>
+            <ul>
+                <li><strong>Memory Usage</strong>: Extra memory is required for storing references (pointers) in each node.</li>
+                <li><strong>Sequential Access</strong>: Accessing elements by index is less efficient compared to arrays due to the need to traverse the list.</li>
+                <li><strong>Complexity</strong>: Operations like insertion, deletion, and traversal can be more complex to implement compared to arrays.</li>
+            </ul>
+        </section>
+        <section>
+            <h2>Use Cases</h2>
+            <ul>
+                <li><strong>Dynamic Memory Allocation</strong>: Useful in scenarios where the number of elements cannot be determined beforehand.</li>
+                <li><strong>Implementation of Stacks and Queues</strong>: Linked lists are often used to implement these abstract data types.</li>
+                <li><strong>Undo Mechanisms</strong>: Used in applications like text editors to store a sequence of states for undo operations.</li>
+                <li><strong>Graph Adjacency Lists</strong>: Representing sparse graphs efficiently.</li>
+            </ul>
+        </section>
+        <section>
+            <h2>Code for Singly LinkedList</h2>
+            <pre><code>
+                public class SinglyLinkedList {
+                    // Node class to represent each element in the list
+                    private static class Node {
+                        int data;
+                        Node next;
+                        
+                        Node(int data) {
+                            this.data = data;
+                            this.next = null;
+                        }
+                    }
+                    
+                    private Node head;
+                
+                    public SinglyLinkedList() {
+                        this.head = null;
+                    }
+                    
+                    // Method to add a new element at the end of the list
+                    public void add(int data) {
+                        Node newNode = new Node(data);
+                        if (head == null) {
+                            head = newNode;
+                        } else {
+                            Node current = head;
+                            while (current.next != null) {
+                                current = current.next;
+                            }
+                            current.next = newNode;
+                        }
+                    }
+                    
+                    // Method to remove an element from the list
+                    public void remove(int data) {
+                        if (head == null) return;
+                
+                        if (head.data == data) {
+                            head = head.next;
+                            return;
+                        }
+                
+                        Node current = head;
+                        while (current.next != null && current.next.data != data) {
+                            current = current.next;
+                        }
+                
+                        if (current.next != null) {
+                            current.next = current.next.next;
+                        }
+                    }
+                    
+                    // Method to display all the elements in the list
+                    public void display() {
+                        Node current = head;
+                        while (current != null) {
+                            System.out.print(current.data + " -> ");
+                            current = current.next;
+                        }
+                        System.out.println("null");
+                    }
+                    
+                    // Method to find if an element exists in the list
+                    public boolean contains(int data) {
+                        Node current = head;
+                        while (current != null) {
+                            if (current.data == data) {
+                                return true;
+                            }
+                            current = current.next;
+                        }
+                        return false;
+                    }
+                    
+                    public static void main(String[] args) {
+                        SinglyLinkedList list = new SinglyLinkedList();
+                        list.add(1);
+                        list.add(2);
+                        list.add(3);
+                        list.display(); // Output: 1 -> 2 -> 3 -> null
+                        
+                        list.remove(2);
+                        list.display(); // Output: 1 -> 3 -> null
+                        
+                        System.out.println(list.contains(3)); // Output: true
+                        System.out.println(list.contains(2)); // Output: false
+                    }
+                }
+                
+            </code></pre>
+        </section>
+        <section>
+            <h2>
+                Code For Doubly LinkedList
+            </h2>
+            <pre><code>
+                public class DoublyLinkedList {
+                    // Node class to represent each element in the list
+                    private static class Node {
+                        int data;
+                        Node next;
+                        Node prev;
+                        
+                        Node(int data) {
+                            this.data = data;
+                            this.next = null;
+                            this.prev = null;
+                        }
+                    }
+                    
+                    private Node head;
+                
+                    public DoublyLinkedList() {
+                        this.head = null;
+                    }
+                    
+                    // Method to add a new element at the end of the list
+                    public void add(int data) {
+                        Node newNode = new Node(data);
+                        if (head == null) {
+                            head = newNode;
+                        } else {
+                            Node current = head;
+                            while (current.next != null) {
+                                current = current.next;
+                            }
+                            current.next = newNode;
+                            newNode.prev = current;
+                        }
+                    }
+                    
+                    // Method to remove an element from the list
+                    public void remove(int data) {
+                        if (head == null) return;
+                
+                        if (head.data == data) {
+                            head = head.next;
+                            if (head != null) {
+                                head.prev = null;
+                            }
+                            return;
+                        }
+                
+                        Node current = head;
+                        while (current != null && current.data != data) {
+                            current = current.next;
+                        }
+                
+                        if (current != null) {
+                            if (current.next != null) {
+                                current.next.prev = current.prev;
+                            }
+                            if (current.prev != null) {
+                                current.prev.next = current.next;
+                            }
+                        }
+                    }
+                    
+                    // Method to display all the elements in the list from head to tail
+                    public void display() {
+                        Node current = head;
+                        while (current != null) {
+                            System.out.print(current.data + " <-> ");
+                            current = current.next;
+                        }
+                        System.out.println("null");
+                    }
+                    
+                    // Method to display all the elements in the list from tail to head
+                    public void displayReverse() {
+                        Node current = head;
+                        if (current == null) return;
+                
+                        while (current.next != null) {
+                            current = current.next;
+                        }
+                
+                        while (current != null) {
+                            System.out.print(current.data + " <-> ");
+                            current = current.prev;
+                        }
+                        System.out.println("null");
+                    }
+                    
+                    // Method to find if an element exists in the list
+                    public boolean contains(int data) {
+                        Node current = head;
+                        while (current != null) {
+                            if (current.data == data) {
+                                return true;
+                            }
+                            current = current.next;
+                        }
+                        return false;
+                    }
+                    
+                    public static void main(String[] args) {
+                        DoublyLinkedList list = new DoublyLinkedList();
+                        list.add(1);
+                        list.add(2);
+                        list.add(3);
+                        list.display(); // Output: 1 <-> 2 <-> 3 <-> null
+                        
+                        list.displayReverse(); // Output: 3 <-> 2 <-> 1 <-> null
+                
+                        list.remove(2);
+                        list.display(); // Output: 1 <-> 3 <-> null
+                        
+                        System.out.println(list.contains(3)); // Output: true
+                        System.out.println(list.contains(2)); // Output: false
+                    }
+                }
+                
+            </code></pre>
+        </section>
+        <section>
+            <h2>
+                Code for Circular LinkedList
+            </h2>
+            <pre><code>
+                public class CircularLinkedList {
+                    // Node class to represent each element in the list
+                    private static class Node {
+                        int data;
+                        Node next;
+                        
+                        Node(int data) {
+                            this.data = data;
+                            this.next = null;
+                        }
+                    }
+                    
+                    private Node head;
+                    private Node tail; // Optional: to keep track of the tail node
+                
+                    public CircularLinkedList() {
+                        this.head = null;
+                        this.tail = null;
+                    }
+                    
+                    // Method to add a new element at the end of the list
+                    public void add(int data) {
+                        Node newNode = new Node(data);
+                        if (head == null) {
+                            head = newNode;
+                            tail = newNode;
+                            newNode.next = head; // Point back to itself for circular nature
+                        } else {
+                            tail.next = newNode;
+                            tail = newNode;
+                            tail.next = head; // Update tail's next to point to head
+                        }
+                    }
+                    
+                    // Method to remove an element from the list
+                    public void remove(int data) {
+                        if (head == null) return;
+                
+                        if (head.data == data) {
+                            if (head == tail) {
+                                head = null;
+                                tail = null;
+                            } else {
+                                head = head.next;
+                                tail.next = head;
+                            }
+                            return;
+                        }
+                
+                        Node current = head;
+                        while (current.next != head && current.next.data != data) {
+                            current = current.next;
+                        }
+                
+                        if (current.next != head) {
+                            current.next = current.next.next;
+                        }
+                
+                        if (current.next == head) {
+                            tail = current; // Update tail if the last element is removed
+                        }
+                    }
+                    
+                    // Method to display all the elements in the list
+                    public void display() {
+                        if (head == null) {
+                            System.out.println("List is empty.");
+                            return;
+                        }
+                        
+                        Node current = head;
+                        do {
+                            System.out.print(current.data + " -> ");
+                            current = current.next;
+                        } while (current != head);
+                        System.out.println(" (head)");
+                    }
+                    
+                    // Method to find if an element exists in the list
+                    public boolean contains(int data) {
+                        if (head == null) return false;
+                
+                        Node current = head;
+                        do {
+                            if (current.data == data) {
+                                return true;
+                            }
+                            current = current.next;
+                        } while (current != head);
+                
+                        return false;
+                    }
+                    
+                    public static void main(String[] args) {
+                        CircularLinkedList list = new CircularLinkedList();
+                        list.add(1);
+                        list.add(2);
+                        list.add(3);
+                        list.display(); // Output: 1 -> 2 -> 3 ->  (head)
+                        
+                        list.remove(2);
+                        list.display(); // Output: 1 -> 3 ->  (head)
+                        
+                        System.out.println(list.contains(3)); // Output: true
+                        System.out.println(list.contains(2)); // Output: false
+                    }
+                }
+                
+            </code></pre>
+        </section>
+        <section>
+            <h2>
+                Some questions for practice on LinkedList
+            </h2>
+            <ul>
+                <li><strong>
+                    <a href="https://leetcode.com/problems/add-two-numbers" target="_blank">Add Two numbers</a>
+                    </strong>
+                </li>
+                <li><strong>
+                    <a href="https://leetcode.com/problems/remove-nth-node-from-end-of-list" target="_blank">Remove Nth node from end of list</a>
+                    </strong>
+                </li>
+                <li><strong>
+                    <a href="https://leetcode.com/problems/merge-two-sorted-lists" target="_blank">Merge two sorted lists</a>
+                    </strong>
+                </li>
+                <li><strong>
+                    <a href="https://leetcode.com/problems/merge-k-sorted-lists" target="_blank">Merge k sorted lists</a>
+                    </strong>
+                </li>
+                <li><strong>
+                    <a href="https://leetcode.com/problems/swap-nodes-in-pairs" target="_blank">Swap nodes in pairs </a>
+                    </strong>
+                </li>
+                <li><strong>
+                    <a href="https://leetcode.com/problems/rotate-list" target="_blank">Rotate List</a>
+                    </strong>
+                </li>
+                
+            </ul>
+        </section>
+    </div>
+</body>
+</html>

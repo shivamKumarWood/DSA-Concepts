@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bit Manipulation Notes</title>
+    <link rel="stylesheet" href="page5.css">
+</head>
+
+<body>
+    <header>
+        <h1>Bit Manipulation Notes</h1>
+    </header>
+
+    <section>
+        <h2>Introduction to Bit Manipulation</h2>
+        <p>Bit Manipulation is the act of algorithmically manipulating bits or binary digits, which are the most basic
+            form of data in computers. It is used for tasks that involve operations like checking, setting, clearing, or
+            toggling bits.</p>
+        <p>Bit manipulation allows for efficient data storage and can significantly optimize algorithms in terms of
+            speed and memory usage.</p>
+    </section>
+
+    <section>
+        <h2>Common Bit Manipulation Operations</h2>
+        <ul>
+            <li>
+                <strong>AND (&):</strong> Compares each bit of two integers and returns 1 if both bits are 1, otherwise
+                0.
+                <pre><code class="code-block">
+// Example: AND Operation
+let a = 5;  // Binary: 0101
+let b = 3;  // Binary: 0011
+let result = a & b; // Binary: 0001, Decimal: 1
+console.log(result); // Output: 1
+                </code></pre>
+            </li>
+            <li>
+                <strong>OR (|):</strong> Compares each bit of two integers and returns 1 if at least one of the bits is
+                1.
+                <pre><code class="code-block">
+// Example: OR Operation
+let a = 5;  // Binary: 0101
+let b = 3;  // Binary: 0011
+let result = a | b; // Binary: 0111, Decimal: 7
+console.log(result); // Output: 7
+                </code></pre>
+            </li>
+            <li>
+                <strong>XOR (^):</strong> Compares each bit of two integers and returns 1 if the bits are different,
+                otherwise 0.
+                <pre><code class="code-block">
+// Example: XOR Operation
+let a = 5;  // Binary: 0101
+let b = 3;  // Binary: 0011
+let result = a ^ b; // Binary: 0110, Decimal: 6
+console.log(result); // Output: 6
+                </code></pre>
+            </li>
+            <li>
+                <strong>NOT (~):</strong> Inverts all the bits of the integer.
+                <pre><code class="code-block">
+// Example: NOT Operation
+let a = 5;  // Binary: 0101
+let result = ~a; // Binary: 1010 (Two's Complement Representation)
+console.log(result); // Output: -6 (in most languages, ~5 equals -(5+1))
+                </code></pre>
+            </li>
+            <li>
+                <strong>Left Shift (<<): </strong> Shifts bits to the left by a certain number of positions, filling
+                        with zeros on the right.
+                        <pre><code class="code-block">
+// Example: Left Shift Operation
+let a = 5;  // Binary: 0101
+let result = a << 1; // Binary: 1010, Decimal: 10
+console.log(result); // Output: 10
+                </code></pre>
+            </li>
+            <li>
+                <strong>Right Shift (>>):</strong> Shifts bits to the right by a certain number of positions, keeping
+                the sign bit intact for signed numbers.
+                <pre><code class="code-block">
+// Example: Right Shift Operation
+let a = 5;  // Binary: 0101
+let result = a >> 1; // Binary: 0010, Decimal: 2
+console.log(result); // Output: 2
+                </code></pre>
+            </li>
+        </ul>
+    </section>
+
+    <section>
+        <h2>Applications of Bit Manipulation</h2>
+        <ul>
+            <li><strong>Checking Even or Odd:</strong> Using AND with 1, we can check if a number is even or odd.
+                <pre><code class="code-block">
+// Example: Check Even or Odd
+function isEven(n) {
+    return (n & 1) === 0;
+}
+
+console.log(isEven(4)); // Output: true
+console.log(isEven(7)); // Output: false
+                </code></pre>
+            </li>
+            <li><strong>Swapping Two Numbers:</strong> Using XOR, two numbers can be swapped without using a temporary
+                variable.
+                <pre><code class="code-block">
+// Example: Swap Two Numbers
+let x = 3, y = 5;
+x = x ^ y;
+y = x ^ y;
+x = x ^ y;
+console.log(x, y); // Output: 5, 3
+                </code></pre>
+            </li>
+            <li><strong>Counting Set Bits:</strong> Counting the number of 1s in the binary representation of a number.
+                <pre><code class="code-block">
+// Example: Count Set Bits
+function countSetBits(n) {
+    let count = 0;
+    while (n > 0) {
+        count += n & 1;
+        n >>= 1;
+    }
+    return count;
+}
+
+console.log(countSetBits(9)); // Output: 2 (Binary: 1001)
+                </code></pre>
+            </li>
+            <li><strong>Finding the Single Number:</strong> In an array where every element appears twice except for
+                one, find that single one using XOR.
+                <pre><code class="code-block">
+// Example: Find Single Number
+function singleNumber(arr) {
+    let result = 0;
+    for (let num of arr) {
+        result ^= num;
+    }
+    return result;
+}
+
+console.log(singleNumber([4, 1, 2, 1, 2])); // Output: 4
+                </code></pre>
+            </li>
+        </ul>
+    </section>
+
+    <section>
+        <h2>Useful Bit Manipulation Tricks</h2>
+        <ul>
+            <li><strong>Finding the Most Significant Bit (MSB):</strong> Use logarithms or bit shifts to find the
+                position of the highest set bit.</li>
+            <li><strong>Clearing the Least Significant Bit (LSB):</strong> `n & (n - 1)` clears the lowest set bit of
+                `n`.</li>
+            <li><strong>Checking if a Power of 2:</strong> `n > 0 && (n & (n - 1)) === 0` checks if `n` is a power of 2.
+            </li>
+            <li><strong>Finding the Parity:</strong> XOR all bits to determine if a number has an odd or even number of
+                1s.</li>
+        </ul>
+    </section>
+    <section>
+        <h2>Some questions for practice on Bit Manipulation</h2>
+        <ul>
+            <li><strong>
+                <a href="https://leetcode.com/problems/divide-two-integers" target="_blank">Divide two integers</a>
+                </strong>
+            </li>
+            <li><strong>
+                <a href="https://leetcode.com/problems/add-binary" target="_blank">Add Binary</a>
+                </strong>
+            </li>
+            <li><strong>
+                <a href="https://leetcode.com/problems/subsets" target="_blank">Subsets</a>
+                </strong>
+            </li>
+            <li><strong>
+                <a href="https://leetcode.com/problems/gray-code" target="_blank">Gray Code</a>
+                </strong>
+            </li>
+            <li><strong>
+                <a href="https://leetcode.com/problems/single-number" target="_blank">Single Number </a>
+                </strong>
+            </li>
+            <li><strong>
+                <a href="https://leetcode.com/problems/reverse-bits" target="_blank">Reverse Bits</a>
+                </strong>
+            </li>
+            
+        </ul>
+    </section>
+    <footer>
+        <p>All rights reserved. &copy copyright <span id="current-year"></span></p>
+    </footer>
+    
+    <script>
+        document.getElementById('current-year').textContent = new Date().getFullYear();
+    </script>
+</body>
+
+</html>

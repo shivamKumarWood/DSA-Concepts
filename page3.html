@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Graph Notes</title>
+    <link rel="stylesheet" href="page3.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Graphs: Basic Concepts and Algorithms</h1>
+        </header>
+
+        <div class="section">
+            <h2>Introduction to Graphs</h2>
+            <p>A <strong>graph</strong> is a non-linear data structure consisting of a collection of nodes (vertices) and edges. Graphs are used to represent networks of interconnected objects, where nodes represent entities and edges represent relationships between those entities. Graphs can be either directed (edges have a direction) or undirected (edges have no direction).</p>
+        </div>
+
+        <div class="section">
+            <h2>Basic Components of a Graph</h2>
+            <ol>
+                <li><strong>Vertex (Node)</strong>:
+                    <ul>
+                        <li>Represents an entity in the graph.</li>
+                        <li>May contain additional information (data).</li>
+                    </ul>
+                </li>
+                <li><strong>Edge</strong>:
+                    <ul>
+                        <li>Represents a relationship or connection between two vertices.</li>
+                        <li>Can be directed or undirected.</li>
+                        <li>May contain additional information (weight/cost).</li>
+                    </ul>
+                </li>
+            </ol>
+        </div>
+
+        <div class="section">
+            <h2>Types of Graphs</h2>
+            <ol>
+                <li><strong>Undirected Graph</strong>:
+                    <ul>
+                        <li>Edge connections are bidirectional.</li>
+                        <li>Example: Social networks where friendships are mutual.</li>
+                    </ul>
+                </li>
+                <li><strong>Directed Graph (Digraph)</strong>:
+                    <ul>
+                        <li>Edge connections are unidirectional.</li>
+                        <li>Example: Web pages with hyperlinks pointing to other pages.</li>
+                    </ul>
+                </li>
+                <li><strong>Weighted Graph</strong>:
+                    <ul>
+                        <li>Edges have weights/costs assigned to them.</li>
+                        <li>Example: Road networks where weights represent distances.</li>
+                    </ul>
+                </li>
+                <li><strong>Unweighted Graph</strong>:
+                    <ul>
+                        <li>Edges do not have weights assigned to them.</li>
+                        <li>Example: Network topology without specific costs.</li>
+                    </ul>
+                </li>
+                <li><strong>Cyclic Graph</strong>:
+                    <ul>
+                        <li>Contains at least one cycle (a path that starts and ends at the same vertex).</li>
+                        <li>Example: A->B->C->A forms a cycle.</li>
+                    </ul>
+                </li>
+                <li><strong>Acyclic Graph</strong>:
+                    <ul>
+                        <li>Does not contain any cycles.</li>
+                        <li>Example: Directed Acyclic Graphs (DAGs) used in scheduling tasks.</li>
+                    </ul>
+                </li>
+            </ol>
+        </div>
+
+        <div class="section">
+            <h2>Graph Representation</h2>
+            <ol>
+                <li><strong>Adjacency Matrix</strong>:
+                    <ul>
+                        <li>A 2D array <code>adj[][]</code> where <code>adj[i][j]</code> is <code>true</code> if there is an edge from vertex <code>i</code> to vertex <code>j</code>.</li>
+                        <li>Suitable for dense graphs (where most pairs of vertices are connected).</li>
+                    </ul>
+                </li>
+                <li><strong>Adjacency List</strong>:
+                    <ul>
+                        <li>An array of lists (<code>ArrayList</code> in Java) where each element is a list of vertices adjacent to a particular vertex.</li>
+                        <li>Suitable for sparse graphs (where few pairs of vertices are connected).</li>
+                    </ul>
+                </li>
+            </ol>
+        </div>
+
+        <div class="section">
+            <h2>Graph Algorithms</h2>
+            <ol>
+                <li><strong>Depth-First Search (DFS)</strong>:
+                    <ul>
+                        <li>Traverses a graph in depth-first manner, exploring as far as possible along each branch before backtracking.</li>
+                        <li>Applications: Finding connected components, cycle detection, pathfinding (unweighted graphs).</li>
+                        
+                    </ul>
+                    <pre>
+                        <code>
+                            import java.util.*;
+
+                            class Graph {
+                                private int V; // No. of vertices
+                                private LinkedList<Integer> adj[]; // Adjacency List
+                                
+                                // Constructor
+                                Graph(int v) {
+                                    V = v;
+                                    adj = new LinkedList[v];
+                                    for (int i=0; i<v; ++i)
+                                        adj[i] = new LinkedList();
+                                }
+                                
+                                // Function to add an edge into the graph
+                                void addEdge(int v, int w) {
+                                    adj[v].add(w);
+                                }
+                                
+                                // DFS traversal
+                                void DFSUtil(int v, boolean visited[]) {
+                                    visited[v] = true;
+                                                             System.out.print(v + " ");
+                                    
+                                    Iterator<Integer> i = adj[v].listIterator();
+                                    while (i.hasNext()) {
+                                        int n = i.next();
+                                        if (!visited[n])
+                                            DFSUtil(n, visited);
+                                    }
+                                }
+                                
+                                   // DFS traversal from a given vertex
+                                void DFS(int v) {
+                                    boolean visited[] = new boolean[V];
+                                    DFSUtil(v, visited);
+                                    }
+                                
+                                    public static void main(String args[]) {
+                                    Graph g = new Graph(4);
+                                                             
+                                    g.addEdge(0, 1);
+                                    g.addEdge(0, 2);
+                                    g.addEdge(1, 2);
+                                    g.addEdge(2, 0);
+                                    g.addEdge(2, 3);
+                                    g.addEdge(3, 3);
+                                 
+                                 System.out.println("Following is Depth First Traversal " + "(starting from vertex 2)");
+                                 
+                                 g.DFS(2);
+                             }
+                            }
+
+                        </code>
+                    </pre>
+                </li>
+                <li><strong>Breadth-First Search (BFS)</strong>:
+                    <ul>
+                        <li>Traverses a graph level by level, exploring all neighbors at the present depth level before moving on to nodes at the next depth level.</li>
+                        <li>Applications: Shortest path in unweighted graphs, minimum spanning tree, connected components.</li>
+                        
+                    </ul>
+                    <pre>
+                        <code>
+                            import java.util.*;
+
+                            class Graph {
+                                private int V; // No. of vertices
+                                private LinkedList<Integer> adj[]; // Adjacency List
+                                
+                                // Constructor
+                                Graph(int v) {
+                                    V = v;
+                                    adj = new LinkedList[v];
+                                    for (int i=0; i<v; ++i)
+                                        adj[i] = new LinkedList();
+                                }
+                                
+                                // Function to add an edge into the graph
+                                void addEdge(int v, int w) {
+                                    adj[v].add(w);
+                                }
+                                
+                                // BFS traversal
+                                void BFS(int s) {
+                                    boolean visited[] = new boolean[V];
+                                    LinkedList<Integer> queue = new LinkedList<Integer>();
+                                    
+                                    visited[s] = true;
+                                    queue.add(s);
+                                    
+                                    while (queue.size() != 0) {
+                                        s = queue.poll();
+                                        System.out.print(s + " ");
+                                        
+                                        Iterator<Integer> i = adj[s].listIterator();
+                                        while (i.hasNext()) {
+                                            int n = i.next();
+                                            if (!visited[n]) {
+                                               visited[n] = true;
+                                                queue.add(n);
+                                            }
+                                        }
+                                    }
+                                }
+                               
+                                public static void main(String args[]) {
+                                    Graph g = new Graph(4);
+                                    
+                                    g.addEdge(0, 1);
+                                    g.addEdge(0, 2);
+                                    g.addEdge(1, 2);
+                                    g.addEdge(2, 0);
+                                    g.addEdge(2, 3);
+                                    g.addEdge(3, 3);
+                                    
+                                    System.out.println("Following is Breadth First Traversal " + "(starting from vertex 2)");
+                                    
+                                    g.BFS(2);
+                                }
+                            }
+
+                        </code>
+                    </pre>
+                </li>
+                <li><strong>Dijkstra's Algorithm</strong>:
+                    <ul>
+                        <li>Finds the shortest path from a source vertex to all other vertices in a weighted graph.</li>
+                        <li>Applications: Finding shortest paths in networks, routing algorithms.</li>
+                    </ul>
+                    <pre>
+                        <code>
+                            import java.util.*;
+
+                            class Graph {
+                                private int V; // No. of vertices
+                                private List<List<Edge>> adj; // Adjacency list of edges
+                                
+                                // Inner class representing a graph edge with weight
+                                class Edge {
+                                    int destination;
+                                    int weight;
+                                    
+                                    Edge(int d, int w) {
+                                        destination = d;
+                                        weight = w;
+                                    }
+                                }
+                                
+                                // Constructor
+                                Graph(int v) {
+                                    V = v;
+                                    adj = new ArrayList<>(v);
+                                    for (int i = 0; i < v; ++i)
+                                        adj.add(new ArrayList<>());
+                                }
+                                
+                                // Function to add an edge with weight
+                                void addEdge(int u, int v, int weight) {
+                                    adj.get(u).add(new Edge(v, weight));
+                                    adj.get(v).add(new Edge(u, weight)); // Comment out for directed graph
+                                }
+                                
+                                // Function to find shortest paths from source using Dijkstra's algorithm
+                                void dijkstra(int source) {
+                                    int[] dist = new int[V];
+                                    Arrays.fill(dist, Integer.MAX_VALUE);
+                                    dist[source] = 0;
+                                    
+                                    PriorityQueue<Integer> pq = new PriorityQueue<>(V, Comparator.comparingInt(o -> dist[o]));
+                                    pq.add(source);
+                                    
+                                    while (!pq.isEmpty()) {
+                                        int u = pq.poll();
+                                        
+                                        for (Edge e : adj.get(u)) {
+                                            int v = e.destination;
+                                            int weight = e.weight;
+                                            
+                                            if (dist[u] != Integer.MAX_VALUE && dist[u] + weight < dist[v]) {
+                                                dist[v] = dist[u] + weight;
+                                                pq.add(v);
+                                            }
+                                        }
+                                    }
+                                    
+                                    // Print the shortest paths
+                                    System.out.println("Vertex Distance from Source");
+                                   for (int i = 0; i < V; i++)
+                                        System.out.println(i + "\t\t" + dist[i]);
+                                }
+                                
+                                public static void main(String args[]) {
+                                    int V = 5;
+                                    Graph g = new Graph(V);
+                                    
+                                    g.addEdge(0, 1, 9);
+                                    g.addEdge(0, 2, 6);
+                                    g.addEdge(0, 3, 5);
+                                    g.addEdge(0, 4, 3);
+                                    g.addEdge(2, 1, 2);
+                                    g.addEdge(2, 3, 4);
+                                    
+                                    g.dijkstra(0);
+                                }
+                            }
+                            
+                        </code>
+                    </pre>
+                </li>
+                <li><strong>Prim's Algorithm</strong>:
+                    <ul>
+                        <li>Finds the minimum spanning tree (MST) for a connected, undirected, and weighted graph.</li>
+                        <li>Applications: Network design, clustering, finding minimum cost in a network.</li>
+                        
+                    </ul>
+                    <pre>
+                        <code>
+                            import java.util.*;
+
+                            class PrimMST {
+                                private static final int V = 5; // Number of vertices in the graph
+                                
+                                // Function to find the minimum spanning tree using Prim's algorithm
+                                void primMST(int graph[][]) {
+                                    int parent[] = new int[V]; // Array to store constructed MST
+                                    int key[] = new int[V]; // Key values used to pick minimum weight edge in cut
+                                    boolean mstSet[] = new boolean[V]; // To represent set of vertices not yet   
+                                    
+                                    // Initialize all keys as INFINITE
+                                    Arrays.fill(key, Integer.MAX_VALUE);
+                                    // Initialize all vertices as not yet included in MST
+                                    Arrays.fill(mstSet, false);
+                                    
+                                    // Always include first vertex in MST. Make key 0 so that this vertex is picked as first vertex
+                                    key[0] = 0; // First vertex is always root of MST
+                                    parent[0] = -1; // First node is always root of MST
+                                    
+                                    // Priority queue to store vertices that are being preprocessed
+                                    PriorityQueue<Integer> pq = new PriorityQueue<>(V, Comparator.comparingInt(o -> key[o]));
+                                    
+                                    // Start with the first vertex
+                                    pq.add(0);
+                                    
+                                    while (!pq.isEmpty()) {
+                                        // Extract the vertex with minimum key value
+                                        int u = pq.poll();
+                                        
+                                        // Add vertex to MST set
+                                        mstSet[u] = true;
+                                        
+                                        // Update key value and parent index of adjacent vertices of the picked vertex
+                                        for (int v = 0; v < V; v++) {
+                                            // Update key[v] only if v is not in MST set, there is an edge from u to v,
+                                            // and weight of edge from u to v is smaller than current value of key[v]
+                                            if (graph[u][v] != 0 && !mstSet[v] && graph[u][v] < key[v]) {
+                                                parent[v] = u;
+                                                key[v] = graph[u][v];
+                                                pq.add(v);
+                                            }
+                                        }
+                                    }
+                                    
+                                    // Print the constructed MST
+                                    printMST(parent, graph);
+                                }
+                                
+                                // A utility function to print the constructed MST stored in parent[]
+                                void printMST(int parent[], int graph[][]) {
+                                    System.out.println("Edge \tWeight");
+                                    for (int i = 1; i < V; i++)
+                                       System.out.println(parent[i] + " - " + i + "\t" + graph[i][parent[i]]);
+                                }
+                                                            
+                                public static void main(String[] args) {
+                                    PrimMST prim = new PrimMST();
+                                    
+                                    // Example graph representation (adjacency matrix)
+                                    int graph[][] = new int[][] {
+                                            {0, 2, 0, 6, 0},
+                                            {2, 0, 3, 8, 5},
+                                            {0, 3, 0, 0, 7},
+                                            {6, 8, 0, 0, 9},
+                                            {0, 5, 7, 9, 0}
+                                    };
+                                    
+                                    // Print the Minimum Spanning Tree
+                                    prim.primMST(graph);
+                                }
+                            } 
+                        </code>
+                    </pre>
+                </li>
+            </ol>
+        </div>
+        <div class="section">
+            <h2>Some questions for practice on Graph</h2>
+            <ul>
+                <li><strong>
+                    <a href="https://leetcode.com/problems/clone-graph" target="_blank">Clone graph</a>
+                    </strong>
+                </li>
+                <li><strong>
+                    <a href="https://leetcode.com/problems/course-schedule" target="_blank">Course schedule</a>
+                    </strong>
+                </li>
+                <li><strong>
+                    <a href="https://leetcode.com/problems/course-schedule-ii" target="_blank">Course schedule II</a>
+                    </strong>
+                </li>
+                <li><strong>
+                    <a href="https://leetcode.com/problems/keys-and-rooms" target="_blank">Keys and Rooms</a>
+                    </strong>
+                </li>
+                <li><strong>
+                    <a href="https://leetcode.com/problems/shortest-path-visiting-all-nodes" target="_blank">Shortest path visiting all nodes</a>
+                    </strong>
+                </li>
+            </ul>
+        </div>
+        </div>
+        </body>
+        </html>
+        

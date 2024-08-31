@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dynamic Programming Notes</title>
+    <link rel="stylesheet" href="page4.css">
+</head>
+
+<body>
+    <header>
+        <h1>Dynamic Programming (DP) Notes</h1>
+    </header>
+
+    <section>
+        <h2>What is Dynamic Programming?</h2>
+        <p>Dynamic Programming (DP) is a method for solving complex problems by breaking them down into simpler
+            subproblems. It is used for optimization problems, where the goal is to find the best solution among all
+            possible solutions.</p>
+        <p>DP is applicable when the problem has overlapping subproblems and optimal substructure properties. It avoids
+            redundant calculations by storing the results of subproblems in a table, either by <em>memoization</em>
+            (top-down approach) or <em>tabulation</em> (bottom-up approach).</p>
+    </section>
+
+    <section>
+        <h2>Types of Dynamic Programming</h2>
+        <ul>
+            <li>
+                <strong>Memoization (Top-Down Approach):</strong> In this approach, the solution is formulated
+                recursively. Results of expensive function calls are stored, and if the same inputs occur again, the
+                stored result is used instead of recalculating.
+                <pre><code class="code-block">
+// Example: Fibonacci using Memoization
+function fibonacci(n, memo = {}) {
+    if (n <= 1) return n;
+    if (n in memo) return memo[n];
+    memo[n] = fibonacci(n - 1, memo) + fibonacci(n - 2, memo);
+    return memo[n];
+}
+
+console.log(fibonacci(10)); // Output: 55
+                </code></pre>
+            </li>
+            <li>
+                <strong>Tabulation (Bottom-Up Approach):</strong> This approach involves solving all the smaller
+                subproblems first and storing their results in a table. The solution to the main problem is built using
+                these results.
+                <pre><code class="code-block">
+// Example: Fibonacci using Tabulation
+function fibonacci(n) {
+    if (n <= 1) return n;
+    const dp = [0, 1];
+    for (let i = 2; i <= n; i++) {
+        dp[i] = dp[i - 1] + dp[i - 2];
+    }
+    return dp[n];
+}
+
+console.log(fibonacci(10)); // Output: 55
+                </code></pre>
+            </li>
+        </ul>
+    </section>
+
+    <section>
+        <h2>Key Concepts in Dynamic Programming</h2>
+        <ol>
+            <li>
+                <strong>Optimal Substructure:</strong> A problem has an optimal substructure if an optimal solution can
+                be constructed from optimal solutions of its subproblems. For example, the shortest path problem
+                satisfies optimal substructure because the shortest path between two nodes can be broken down into
+                subpaths that are also shortest.
+            </li>
+            <li>
+                <strong>Overlapping Subproblems:</strong> A problem has overlapping subproblems if the same subproblems
+                are solved multiple times in the process of solving the overall problem. For example, in the Fibonacci
+                sequence, calculating Fibonacci(5) requires calculating Fibonacci(4) and Fibonacci(3), which in turn
+                require calculating Fibonacci(3) and Fibonacci(2), and so on.
+            </li>
+        </ol>
+    </section>
+
+    <section>
+        <h2>Examples of Dynamic Programming Problems</h2>
+        <ul>
+            <li>
+                <strong>Fibonacci Sequence:</strong> Classic example of a problem that can be solved with both
+                memoization and tabulation.
+            </li>
+            <li>
+                <strong>Knapsack Problem:</strong> A problem where given weights and values of items, the objective is
+                to maximize the total value in a knapsack with a limited capacity.
+                <pre><code class="code-block">
+// Example: 0/1 Knapsack Problem using Dynamic Programming
+function knapsack(weights, values, capacity) {
+    const n = weights.length;
+    const dp = Array.from({ length: n + 1 }, () => Array(capacity + 1).fill(0));
+    
+    for (let i = 1; i <= n; i++) {
+        for (let w = 1; w <= capacity; w++) {
+            if (weights[i - 1] <= w) {
+                dp[i][w] = Math.max(dp[i - 1][w], dp[i - 1][w - weights[i - 1]] + values[i - 1]);
+            } else {
+                dp[i][w] = dp[i - 1][w];
+            }
+        }
+    }
+    return dp[n][capacity];
+}
+
+console.log(knapsack([1, 2, 3], [10, 15, 40], 5)); // Output: 55
+                </code></pre>
+            </li>
+            <li><strong>Longest Common Subsequence (LCS):</strong> Finding the longest sequence that appears in the same
+                relative order in both strings.
+                <pre><code class="code-block">
+                    class Solution {
+                        public int longestCommonSubsequence(String text1, String text2) {
+                            int m=text1.length(),n=text2.length();
+                            int dp[][]=new int[m+1][n+1];
+                            for(int i=1;i<=m;i++){
+                                for(int j=1;j<=n;j++){
+                                    if(text1.charAt(i-1)==text2.charAt(j-1)){
+                                        dp[i][j]=dp[i-1][j-1]+1;
+                                    }else{
+                                        dp[i][j]=Math.max(dp[i-1][j],dp[i][j-1]);
+                                    }
+                                }
+                            }
+                            return dp[m][n];
+                        }
+                    }
+                    </code></pre>
+            </li>
+            <li><strong>Coin Change Problem:</strong> Finding the minimum number of coins required to make a certain
+                amount of change.
+                <pre><code class="code-block">
+                    class Solution {
+                        public int coinChange(int[] coins, int amount) {
+                            int dp[]=new int[amount+1];
+                            Arrays.fill(dp,-1);
+                            dp[0]=0;
+                            int ans=mincoins(amount,coins,dp);
+                           if(ans!= Integer.MAX_VALUE){
+                                return ans;
+                            }else{
+                                return -1;
+                            }
+                            
+                        }
+                        public int mincoins(int n,int a[],int dp[]){
+                            if(n==0) return 0;
+                            int ans=Integer.MAX_VALUE;
+                            for(int i=0;i<=a.length-1;i++){
+                                if(n-a[i]>=0){
+                                    int subans=0;
+                                    if(dp[n-a[i]]!=-1){
+                                        subans=dp[n-a[i]];
+                                    }else{
+                                        subans=mincoins(n-a[i],a,dp);
+                                    }
+                                    if(subans!=Integer.MAX_VALUE&&subans+1<=ans-1){
+                                        ans=subans+1;
+                                    }
+                                }
+                            }
+                            return dp[n]=ans;
+                        }
+                    }
+                </code></pre>
+            </li>
+
+        </ul>
+    </section>
+    <section>
+        <h2>Some questions for practice on Dynamic Programming</h2>
+        <ul>
+            <li><strong>
+                <a href="https://leetcode.com/problems/longest-palindromic-substring/description/" target="_blank">Longest Palindromic substring</a>
+                </strong>
+            </li>
+            <li><strong>
+                <a href="https://leetcode.com/problems/generate-parentheses/description/" target="_blank">Generate paranthesis</a>
+                </strong>
+            </li>
+            <li><strong>
+                <a href="https://leetcode.com/problems/trapping-rain-water/description/" target="_blank">Trapping Rainwater</a>
+                </strong>
+            </li>
+            <li><strong>
+                <a href="https://leetcode.com/problems/jump-game/description/" target="_blank">Jump Game</a>
+                </strong>
+            </li>
+            <li><strong>
+                <a href="https://leetcode.com/problems/unique-paths/description/" target="_blank">Unique Paths </a>
+                </strong>
+            </li>
+            <li><strong>
+                <a href="https://leetcode.com/problems/pascals-triangle/description/" target="_blank">Pascals Triangle</a>
+                </strong>
+            </li>
+            
+        </ul>
+    </section>
+    <footer>
+        <p>All rights reserved. &copy copyright <span id="current-year"></span></p>
+    </footer>
+    
+    <script>
+        document.getElementById('current-year').textContent = new Date().getFullYear();
+    </script>
+</body>
+
+</html>
